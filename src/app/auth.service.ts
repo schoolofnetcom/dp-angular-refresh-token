@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {take, tap} from 'rxjs/operators';
+import {map, take, tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 
 @Injectable({
@@ -16,9 +16,9 @@ export class AuthService {
         return this.http
             .post<{token: string}>('http://localhost:8000/api/refresh', {})
             .pipe(
-                take(1),
                 tap(data => this.token = data.token),
-            );
+                take(1),
+            ); //memory leak
     }
 
     set token(token) {

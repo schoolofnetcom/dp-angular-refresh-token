@@ -18,13 +18,14 @@ export class AuthGuardService implements CanActivate {
             this.router.navigate(['/login']);
             return false;
         }
-        // OAuth2
+        // OAuth2 - expires_in: 3600
         // Date.now is the storage date in app | 3600 seconds is an hour 60*60*60
+        //new Date(Date.now() + 3600).getTime()
         const expiresAt = new Date(Date.now() + 3600).valueOf();
         const now = new Date().valueOf();
         // JWT
-        // const expiresAt = new Date(0).setUTCSeconds(0).valueOf();
-        // const now = new Date().valueOf();
+        //const expiresAt = new Date(0).setUTCSeconds(timestamp).valueOf();
+        //const now = new Date().valueOf();
         if (expiresAt < now) {
             return this.authService.refresh().pipe(
                 map(() => true),
